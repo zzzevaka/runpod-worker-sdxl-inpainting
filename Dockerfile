@@ -1,28 +1,20 @@
-# Base image -> https://github.com/runpod/containers/blob/main/official-templates/base/Dockerfile
-FROM runpod/base:0.1.0
+FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu20.04
 
-# The base image comes with many system dependencies pre-installed to help you get started quickly.
-# Please refer to the base image's Dockerfile for more information before adding additional dependencies.
-# IMPORTANT: The base image overrides the default huggingface cache location.
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Optional: System dependencies
-# COPY builder/setup.sh /setup.sh
-# RUN /bin/bash /setup.sh && \
-#     rm /setup.sh
+WORKDIR /app
 
+COPY /builder/setup.sh /builder/requirements.txt /app/
+RUN /bin/bash setup.sh && rm setup.sh
+RUN python3 -mpip install -r requirements.txt && rm requirements.txt
 
-# Python dependencies
-COPY builder/requirements.txt /requirements.txt
-RUN python3.11 -m pip install --upgrade pip && \
-    python3.11 -m pip install --upgrade -r /requirements.txt --no-cache-dir && \
-    rm /requirements.txt
+COPY /src/cache_models.py /src/constants.py /app/
+RUN python3 cache_models.py
 
-# NOTE: The base image comes with multiple Python versions pre-installed.
-#       It is reccommended to specify the version of Python when running your code.
+COPY /src/* /app/
 
-
-# Add src files (Worker Template)
-ADD src .
-
-CMD python3.11 -u /handler.py
+CMD python3 /app/handler.py
