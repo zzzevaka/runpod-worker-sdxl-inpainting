@@ -1,0 +1,21 @@
+{
+  "input": {
+    "s3_presigned_post": {
+      "url": "https://s3/",
+      "fields": {
+        "key": "fl/ca2e763563784d14b73ff763cdf2407f.png",
+        "AWSAccessKeyId": "DO00G2GHR4QM7MYMPN7H",
+        "policy": "eyJleHBpcmF0aW9uIjogIjIwMjMtMTEtMDNUMjA6NDA6NDlaIiwgImNvbmRpdGlvbnMiOiBbeyJidWNrZXQiOiAiZmxvd3MifSwgeyJrZXkiOiAiVVNSLTE2OTEzMzI3NTktNzU2My9jYTJlNzYzNTYzNzg0ZDE0YjczZmY3NjNjZGYyNDA3Zi5wbmcifV19",
+        "signature": "QvuOrGsnR9vzCefQFAHlSweEjiQ="
+      }
+    },
+    "prompt": "Highly realistic, photo, hd, high quality, high resolution 4k, ",
+    "image": "https://s3/acc-123/image.png",
+    "mask_image": "https://s3/acc-123/mask.png",
+    "image_prompt": "https://s3/acc-123/image.png",
+    "strength": 0.4,
+    "guidance_scale": 7.5,
+    "steps": 20,
+    "scheduler": "DDIM"
+  }
+}
