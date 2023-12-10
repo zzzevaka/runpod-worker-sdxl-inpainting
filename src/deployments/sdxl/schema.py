@@ -59,7 +59,7 @@ INPUT_SCHEMA = {
     'strength': {
         'type': float,
         'required': False,
-        'default': 0.3
+        'default': 0.6,
     },
     'num_images': {
         'type': int,

@@ -75,6 +75,7 @@ class SDXLInpaintDeployment:
             'negative_prompt': event_input['negative_prompt'],
             'num_inference_steps': event_input['steps'],
             'guidance_scale': event_input['guidance_scale'],
+            'strength': event_input['strength'],
             'num_images_per_prompt': 1,
         }
 
