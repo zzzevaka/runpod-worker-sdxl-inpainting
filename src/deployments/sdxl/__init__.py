@@ -1,5 +1,7 @@
 from runpod.serverless.utils.rp_validator import validate
 
+from PIL import Image
+
 import torch
 from diffusers import (
     AutoPipelineForInpainting,
@@ -52,7 +54,12 @@ class SDXLInpaintDeployment:
 
     def get_pipeline_kwargs(self, event_input):
         image = download_image(event_input['image']).convert('RGB')
-        mask = download_image(event_input['mask_image']).convert('RGB')
+
+        mask_image = event_input['mask_image']
+        if mask_image == '__full__':
+            mask = Image.new(size=image.size, mode='RGB', color=(255, 255, 255))
+        else:
+            mask = download_image(event_input['mask_image']).convert('RGB')
 
         width = event_input['width']
         ratio = image.size[0] / mask.size[1]
