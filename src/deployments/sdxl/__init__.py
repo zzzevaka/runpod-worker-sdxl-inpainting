@@ -2,7 +2,7 @@ from runpod.serverless.utils.rp_validator import validate
 
 import torch
 from diffusers import (
-    AutoPipelineForInpainting,
+    StableDiffusionXLImg2ImgPipeline,
     PNDMScheduler,
     LMSDiscreteScheduler,
     DDIMScheduler,
@@ -14,8 +14,8 @@ from deployments.sdxl.schema import INPUT_SCHEMA
 from utils import download_image, upload_image, merge_images
 
 
-class SDXLInpaintDeployment:
-    MODEL_NAME = 'diffusers/stable-diffusion-xl-1.0-inpainting-0.1'
+class Deployment:
+    MODEL_NAME = 'stabilityai/stable-diffusion-xl-refiner-1.0'
     MODEL_VARIANT = 'fp16'
     SCHEMA = INPUT_SCHEMA
     SCHEDULERS = {
@@ -39,7 +39,7 @@ class SDXLInpaintDeployment:
         self.pipeline = pipeline
 
     def download_model(self):
-        return AutoPipelineForInpainting.from_pretrained(
+        return StableDiffusionXLImg2ImgPipeline.from_pretrained(
             self.MODEL_NAME,
             variant=self.MODEL_VARIANT,
             torch_dtype=torch.float16,
@@ -52,19 +52,10 @@ class SDXLInpaintDeployment:
 
     def get_pipeline_kwargs(self, event_input):
         image = download_image(event_input['image']).convert('RGB')
-        mask = download_image(event_input['mask_image']).convert('RGB')
-
-        width = event_input['width']
-        ratio = image.size[0] / mask.size[1]
-        height = round(width / ratio)
-        height -= height % 8
 
         kwargs = {
-            'width': width,
-            'height': height,
             'prompt': event_input['prompt'],
             'image': image,
-            'mask_image': mask,
             'negative_prompt': event_input['negative_prompt'],
             'num_inference_steps': event_input['steps'],
             'guidance_scale': event_input['guidance_scale'],

@@ -10,8 +10,7 @@
       }
     },
     "prompt": "Highly realistic, photo, hd, high quality, high resolution 4k, ",
-    "image": "https://s3/acc-123/image.png",
-    "mask_image": "https://s3/acc-123/mask.png",
+    "image": "https://stuckin.tech/media/flows/vars/FLWVAR-1697139015-9205/FLWLAN-1698754387-2672/img.png",
     "strength": 0.4,
     "guidance_scale": 7.5,
     "steps": 20,

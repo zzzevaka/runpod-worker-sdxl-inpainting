@@ -4,8 +4,8 @@ from urllib import request
 
 from ip_adapter import IPAdapterXL
 
-from deployments.sdxl import Deployment as SDXLDeployment
-from deployments.sdxl_ip.schema import INPUT_SCHEMA
+from deployments.sdxl_inpaint import Deployment as SDXLInpaintDeployment
+from deployments.sdxl_inpaint_ip.schema import INPUT_SCHEMA
 
 from utils import download_image
 
@@ -31,7 +31,7 @@ IP_ADAPTER_FILES = (
 )
 
 
-class Deployment(SDXLDeployment):
+class Deployment(SDXLInpaintDeployment):
     SCHEMA = INPUT_SCHEMA
 
     def __init__(self):

@@ -17,10 +17,6 @@ INPUT_SCHEMA = {
         'type': str,
         'required': True,
     },
-    'mask_image': {
-        'type': str,
-        'required': True,
-    },
     'prompt': {
         'type': str,
         'required': True,
@@ -67,10 +63,4 @@ INPUT_SCHEMA = {
         'default': 1,
         'constraints': lambda img_count: 3 > img_count > 0
     },
-    'merge_padding': {
-        'type': float,
-        'required': False,
-        'default': 0.02,
-        'constraints': lambda padding: 1 >= padding >= 0
-    }
 }

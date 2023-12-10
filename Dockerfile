@@ -1,11 +1,9 @@
 FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu20.04
 
-ARG DEPLOYMENT_NAME=sdxl
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV DEPLOYMENT=$DEPLOYMENT_NAME
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -19,6 +17,9 @@ RUN git clone https://github.com/tencent-ailab/IP-Adapter.git /tmp/ip_adapter &&
     cp -r /tmp/ip_adapter/ip_adapter /usr/local/lib/python3.10/dist-packages
 
 COPY /src/ /app/
+
+ARG DEPLOYMENT_NAME=sdxl
+ENV DEPLOYMENT=$DEPLOYMENT_NAME
 
 RUN python3 cache_models.py
 

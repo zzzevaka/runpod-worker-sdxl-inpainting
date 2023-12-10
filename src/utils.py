@@ -1,11 +1,20 @@
 import os
+from enum import Enum
 from typing import Optional
 from io import BytesIO
+from importlib import import_module
 
 import requests
 import cv2
 import numpy as np
 from PIL import Image
+
+
+class DeploymentName(str, Enum):
+    SDXL = 'sdxl'
+    SDXL_IP = 'sdxl_ip'
+    SDXL_INPAINT = 'sdxl_inpaint'
+    SDXL_INPAINT_IP = 'sdxl_inpaint_ip'
 
 
 def merge_images(
@@ -64,9 +73,8 @@ def upload_image(image: Image, s3_presigned_post) -> Optional[dict]:
 
 
 def get_deployment():
-    if os.getenv('DEPLOYMENT', 'sdxl') == 'sdxl_ip':
-        from deployments.sdxl_ip import SDXLIPInpaintDeployment
-        return SDXLIPInpaintDeployment()
+    deployment_name = DeploymentName(os.getenv('DEPLOYMENT'))
+    module_name = f'deployments.{deployment_name}'
+    deployment_module = import_module(module_name)
 
-    from deployments.sdxl import SDXLInpaintDeployment
-    return SDXLInpaintDeployment()
+    return deployment_module.Deployment()
