@@ -54,12 +54,12 @@ def upload_image(image: Image, s3_presigned_post) -> Optional[dict]:
         data={**s3_presigned_post['fields']},
     )
 
-    if resp.status_code == 200:
+    if resp.status_code in (200, 204):
         return {'status_code': 200}
     else:
         return {
             'status_code': resp.status_code,
-            'error': resp.content
+            'error': resp.content.decode(),
         }
 
 
